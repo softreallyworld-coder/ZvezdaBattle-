@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZvezgaBattle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --secondary-color: #FFF8DC;
+            --accent-color: #FFA500;
+            --dark-accent: #FF8C00;
+            --text-color: #333;
+            --light-text: #666;
+            --shadow-color: rgba(255, 215, 0, 0.3);
+            --success-color: #4CAF50;
+            --danger-color: #f44336;
+            --case-color-1: #FF6B6B;
+            --case-color-2: #4ECDC4;
+            --case-color-3: #FFD166;
+            --case-color-4: #06D6A0;
+            --case-color-5: #118AB2;
+            --case-color-6: #073B4C;
+            --case-color-7: #7209B7;
+            --case-color-8: #F72585;
+            --case-color-9: #3A86FF;
+            --case-color-10: #FB5607;
+            --case-color-11: #8338EC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff 0%, var(--secondary-color) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M50 10 L60 40 L90 40 L65 60 L75 90 L50 70 L25 90 L35 60 L10 40 L40 40 Z" fill="white"/></svg>');
+            background-size: 50px 50px;
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo span {
+            color: var(--dark-accent);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 24px;
+            margin: 8px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        .nav-btn.active {
+            background: white;
+            color: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-top: 25px;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path d="M50 10 L60 40 L90 40 L65 60 L75 90 L50 70 L25 90 L35 60 L10 40 L40 40 Z" fill="%23FFD700"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 12px;
+            font-size: 1.8rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stars-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            color: var(--accent-color);
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .click-area {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .star-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border: none;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .star-btn::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        .star-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        .star-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .bonus-info {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--light-text);
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .reward-day {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reward-day::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--primary-color);
+        }
+        
+        .reward-day.claimed {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .reward-day.today {
+            border: 3px solid var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .case-item {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-top: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .case-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+        
+        .case-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .case-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .case-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .case-price {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 15px 0;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .case-chance {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .action-btn:hover {
+            background: var(--dark-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        
+        .action-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .upgrade-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--light-text);
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+            outline: none;
+        }
+        
+        .chance-display {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+        }
+        
+        .wheel-container {
+            width: 320px;
+            height: 320px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+        }
+        
+        .spin-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--dark-accent) 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+        }
+        
+        .spin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 140, 0, 0.4);
+        }
+        
+        .spin-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .positive {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .negative {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalAppear 0.5s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .case-animation {
+            font-size: 4rem;
+            margin: 30px 0;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.1); }
+        }
+        
+        .reward-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--accent-color);
+        }
+        
+        .empty-cases {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-text);
+            font-size: 1.2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+        
+        .case-opening-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .stars-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .star-reward {
+            position: absolute;
+            font-size: 2rem;
+            color: gold;
+            animation: flyUp 2s forwards;
+        }
+        
+        @keyframes flyUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+        
+        .final-reward {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 30px 0;
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: var(--light-text);
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .reward-grid, .case-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .wheel-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Zvezda<span>Battle</span></div>
+            <nav>
+                <button class="nav-btn active" data-section="profile"><i class="fas fa-user"></i> Профиль</button>
+                <button class="nav-btn" data-section="earn"><i class="fas fa-star"></i> Заработать</button>
+                <button class="nav-btn" data-section="cases"><i class="fas fa-box"></i> Мои кейсы</button>
+                <button class="nav-btn" data-section="buy-cases"><i class="fas fa-shopping-cart"></i> Магазин</button>
+                <button class="nav-btn" data-section="upgrade"><i class="fas fa-chart-line"></i> Улучшения</button>
+                <button class="nav-btn" data-section="about"><i class="fas fa-info-circle"></i> Об авторе</button>
+            </nav>
+        </header>
+        
+        <div class="stars-display">
+            <i class="fas fa-star"></i> Звезды: <span id="stars-count">30</span> ⭐
+        </div>
+        
+        <section id="profile" class="section active">
+            <h2><i class="fas fa-user"></i> Профиль</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>Всего заработано</div>
+                    <div class="stat-value" id="total-earned">30</div>
+                    <div>звезд</div>
+                </div>
+                <div class="stat-card">
+                    <div>Всего потрачено</div>
+                    <div class="stat-value" id="total-spent">0</div>
+                    <div>звезд</div>
+                </div>
+                <div class="stat-card">
+                    <div>Текущий баланс</div>
+                    <div class="stat-value" id="balance">30</div>
+                    <div>звезд</div>
+                </div>
+                <div class="stat-card">
+                    <div>Всего кликов</div>
+                    <div class="stat-value" id="total-clicks">0</div>
+                    <div>раз</div>
+                </div>
+            </div>
+            
+            <h3><i class="fas fa-history"></i> История операций</h3>
+            <div id="history-list" class="history-list">
+                <!-- История будет заполнена через JavaScript -->
+            </div>
+        </section>
+        
+        <section id="earn" class="section">
+            <h2><i class="fas fa-star"></i> Заработать звезды</h2>
+            
+            <div class="click-area">
+                <button class="star-btn" id="click-star">
+                    <div>Кликни!</div>
+                </button>
+                <div class="bonus-info">
+                    <i class="fas fa-mouse-pointer"></i> Кликов: <span id="click-count">0</span>/100
+                    <br><i class="fas fa-gift"></i> За каждые 100 кликов получите бонусный кейс!
+                </div>
+            </div>
+            
+            <h3><i class="fas fa-calendar-day"></i> Ежедневные награды</h3>
+            <div class="reward-grid" id="daily-rewards">
+                <!-- Награды будут заполнены через JavaScript -->
+            </div>
+        </section>
+        
+        <section id="cases" class="section">
+            <h2><i class="fas fa-box"></i> Ваши кейсы</h2>
+            <div class="case-grid" id="user-cases">
+                <!-- Кейсы пользователя будут заполнены через JavaScript -->
+            </div>
+        </section>
+        
+        <section id="buy-cases" class="section">
+            <h2><i class="fas fa-shopping-cart"></i> Купить кейсы</h2>
+            <div class="case-grid" id="shop-cases">
+                <!-- Кейсы в магазине будут заполнены через JavaScript -->
+            </div>
+        </section>
+        
+        <section id="upgrade" class="section">
+            <h2><i class="fas fa-chart-line"></i> Улучшения</h2>
+            <div class="upgrade-form">
+                <div class="form-group">
+                    <label for="current-stars"><i class="fas fa-coins"></i> Ваше количество звезд:</label>
+                    <input type="number" id="current-stars" value="10" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="target-stars"><i class="fas fa-bullseye"></i> Сколько хотите заработать:</label>
+                    <input type="number" id="target-stars" value="20" min="1">
+                </div>
+                
+                <div class="chance-display">
+                    <i class="fas fa-chart-pie"></i> Шанс успеха: <span id="chance-percent">90%</span>
+                </div>
+                
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="wheel"></div>
+                </div>
+                
+                <button class="spin-btn" id="spin-btn"><i class="fas fa-sync-alt"></i> Крутить</button>
+            </div>
+        </section>
+        
+        <section id="about" class="section">
+            <h2><i class="fas fa-info-circle"></i> Об авторе</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 5rem; color: var(--accent-color); margin-bottom: 20px;">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <p style="font-size: 1.5rem; font-weight: bold; margin: 20px 0;">@darzw</p>
+                <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                    ZvezgaBattle - это игровая платформа для развлечения с виртуальными звездами. 
+                    Здесь вы можете зарабатывать звезды, открывать кейсы и испытать удачу в улучшениях!
+                </p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>ZvezgaBattle &copy; 2023 - Все права защищены</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Создано с <i class="fas fa-heart" style="color: #f44336;"></i> для развлечения</p>
+        </footer>
+    </div>
+    
+    <!-- Модальное окно для анимации открытия кейса -->
+    <div class="modal" id="case-modal">
+        <div class="modal-content">
+            <h3>Открытие кейса</h3>
+            <div class="case-animation">⭐</div>
+            <p id="case-result">Вы получили: 50 ⭐</p>
+            <div class="reward-amount" id="reward-amount">50 ⭐</div>
+            <button class="action-btn" id="close-modal">Закрыть</button>
+        </div>
+    </div>
+    
+    <!-- Анимация открытия кейса с прокруткой звезд -->
+    <div class="case-opening-animation" id="case-opening">
+        <div class="stars-container" id="stars-container"></div>
+        <div class="final-reward" id="final-reward">0 ⭐</div>
+        <button class="action-btn" id="close-case-animation">Забрать награду</button>
+    </div>
+    
+    <script>
+        // Данные пользователя
+        let userData = {
+            stars: 30,
+            totalEarned: 30,
+            totalSpent: 0,
+            clickCount: 0,
+            history: [
+                { description: "Начальный бонус", amount: 30, type: "positive" }
+            ],
+            cases: [],
+            dailyRewards: {
+                lastClaim: null,
+                streak: 0
+            },
+            lastSave: Date.now()
+        };
+        
+        // Данные кейсов
+        const casesData = [
+            { 
+                id: 1, 
+                name: "Обычный кейс", 
+                price: 20, 
+                color: "var(--case-color-1)", 
+                icon: "fas fa-box", 
+                rewards: [
+                    { stars: 10, chance: 50 },
+                    { stars: 15, chance: 30 },
+                    { stars: 25, chance: 15 },
+                    { stars: 50, chance: 5 }
+                ]
+            },
+            { 
+                id: 2, 
+                name: "Серебряный кейс", 
+                price: 50, 
+                color: "var(--case-color-2)", 
+                icon: "fas fa-box", 
+                rewards: [
+                    { stars: 25, chance: 40 },
+                    { stars: 50, chance: 30 },
+                    { stars: 75, chance: 20 },
+                    { stars: 100, chance: 10 }
+                ]
+            },
+            { 
+                id: 3, 
+                name: "Золотой кейс", 
+                price: 100, 
+                color: "var(--case-color-3)", 
+                icon: "fas fa-box", 
+                rewards: [
+                    { stars: 50, chance: 35 },
+                    { stars: 75, chance: 30 },
+                    { stars: 100, chance: 20 },
+                    { stars: 150, chance: 10 },
+                    { stars: 200, chance: 5 }
+                ]
+            },
+            { 
+                id: 4, 
+                name: "Платиновый кейс", 
+                price: 200, 
+                color: "var(--case-color-4)", 
+                icon: "fas fa-gem", 
+                rewards: [
+                    { stars: 100, chance: 30 },
+                    { stars: 150, chance: 25 },
+                    { stars: 200, chance: 20 },
+                    { stars: 300, chance: 15 },
+                    { stars: 500, chance: 10 }
+                ]
+            },
+            { 
+                id: 5, 
+                name: "Изумрудный кейс", 
+                price: 350, 
+                color: "var(--case-color-5)", 
+                icon: "fas fa-gem", 
+                rewards: [
+                    { stars: 150, chance: 25 },
+                    { stars: 250, chance: 20 },
+                    { stars: 350, chance: 18 },
+                    { stars: 500, chance: 15 },
+                    { stars: 750, chance: 12 },
+                    { stars: 1000, chance: 10 }
+                ]
+            },
+            { 
+                id: 6, 
+                name: "Алмазный кейс", 
+                price: 500, 
+                color: "var(--case-color-6)", 
+                icon: "fas fa-gem", 
+                rewards: [
+                    { stars: 250, chance: 20 },
+                    { stars: 400, chance: 18 },
+                    { stars: 600, chance: 16 },
+                    { stars: 800, chance: 14 },
+                    { stars: 1000, chance: 12 },
+                    { stars: 1500, chance: 10 },
+                    { stars: 2000, chance: 5 },
+                    { stars: 5000, chance: 5 }
+                ]
+            },
+            { 
+                id: 7, 
+                name: "Огненный кейс", 
+                price: 750, 
+                color: "var(--case-color-7)", 
+                icon: "fas fa-fire", 
+                rewards: [
+                    { stars: 400, chance: 18 },
+                    { stars: 600, chance: 16 },
+                    { stars: 800, chance: 14 },
+                    { stars: 1000, chance: 12 },
+                    { stars: 1500, chance: 10 },
+                    { stars: 2000, chance: 8 },
+                    { stars: 3000, chance: 7 },
+                    { stars: 5000, chance: 5 },
+                    { stars: 10000, chance: 5 },
+                    { stars: 20000, chance: 5 }
+                ]
+            },
+            { 
+                id: 8, 
+                name: "Ледяной кейс", 
+                price: 1000, 
+                color: "var(--case-color-8)", 
+                icon: "fas fa-snowflake", 
+                rewards: [
+                    { stars: 500, chance: 16 },
+                    { stars: 750, chance: 14 },
+                    { stars: 1000, chance: 12 },
+                    { stars: 1500, chance: 10 },
+                    { stars: 2000, chance: 9 },
+                    { stars: 3000, chance: 8 },
+                    { stars: 5000, chance: 7 },
+                    { stars: 7500, chance: 6 },
+                    { stars: 10000, chance: 5 },
+                    { stars: 15000, chance: 5 },
+                    { stars: 25000, chance: 5 },
+                    { stars: 50000, chance: 3 }
+                ]
+            },
+            { 
+                id: 9, 
+                name: "Космический кейс", 
+                price: 1500, 
+                color: "var(--case-color-9)", 
+                icon: "fas fa-rocket", 
+                rewards: [
+                    { stars: 750, chance: 14 },
+                    { stars: 1000, chance: 12 },
+                    { stars: 1500, chance: 10 },
+                    { stars: 2000, chance: 9 },
+                    { stars: 3000, chance: 8 },
+                    { stars: 5000, chance: 7 },
+                    { stars: 7500, chance: 6 },
+                    { stars: 10000, chance: 5 },
+                    { stars: 15000, chance: 5 },
+                    { stars: 25000, chance: 5 },
+                    { stars: 50000, chance: 5 },
+                    { stars: 100000, chance: 5 },
+                    { stars: 250000, chance: 5 },
+                    { stars: 500000, chance: 4 }
+                ]
+            },
+            { 
+                id: 10, 
+                name: "Легендарный кейс", 
+                price: 2500, 
+                color: "var(--case-color-10)", 
+                icon: "fas fa-crown", 
+                rewards: [
+                    { stars: 1000, chance: 12 },
+                    { stars: 2000, chance: 10 },
+                    { stars: 3000, chance: 9 },
+                    { stars: 5000, chance: 8 },
+                    { stars: 7500, chance: 7 },
+                    { stars: 10000, chance: 6 },
+                    { stars: 15000, chance: 5 },
+                    { stars: 25000, chance: 5 },
+                    { stars: 50000, chance: 5 },
+                    { stars: 100000, chance: 5 },
+                    { stars: 250000, chance: 5 },
+                    { stars: 500000, chance: 5 },
+                    { stars: 1000000, chance: 5 },
+                    { stars: 2500000, chance: 5 },
+                    { stars: 5000000, chance: 4 }
+                ]
+            },
+            { 
+                id: 11, 
+                name: "Мифический кейс", 
+                price: 10, 
+                color: "var(--case-color-11)", 
+                icon: "fas fa-dragon", 
+                rewards: [
+                    { stars: 5, chance: 70 },
+                    { stars: 10, chance: 20 },
+                    { stars: 50, chance: 5 },
+                    { stars: 100, chance: 3 },
+                    { stars: 500, chance: 1.5 },
+                    { stars: 1000, chance: 0.4 },
+                    { stars: 5000, chance: 0.09 },
+                    { stars: 10000, chance: 0.009 },
+                    { stars: 50000, chance: 0.001 }
+                ]
+            }
+        ];
+
+        // Загрузка данных из localStorage
+        function loadUserData() {
+            const savedData = localStorage.getItem('zvezgaBattleData');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                
+                // Проверяем, не прошло ли более 24 часов с последнего получения ежедневной награды
+                const now = Date.now();
+                const lastClaim = parsedData.dailyRewards.lastClaim;
+                
+                if (lastClaim && (now - lastClaim) >= 24 * 60 * 60 * 1000) {
+                    // Сбрасываем стрик, если прошло более 24 часов
+                    parsedData.dailyRewards.streak = 0;
+                }
+                
+                userData = { ...userData, ...parsedData };
+            }
+            
+            updateStarsDisplay();
+            updateHistoryDisplay();
+        }
+
+        // Сохранение данных в localStorage
+        function saveUserData() {
+            userData.lastSave = Date.now();
+            localStorage.setItem('zvezgaBattleData', JSON.stringify(userData));
+        }
+        
+        // Инициализация страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем данные пользователя
+            loadUserData();
+            
+            // Навигация по разделам
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Убираем активный класс у всех кнопок и секций
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей кнопке и секции
+                    this.classList.add('active');
+                    document.getElementById(targetSection).classList.add('active');
+                    
+                    // Если переходим на вкладку с кейсами, обновляем их отображение
+                    if (targetSection === 'cases') {
+                        updateUserCases();
+                    } else if (targetSection === 'earn') {
+                        initDailyRewards();
+                    }
+                });
+            });
+            
+            // Обновление отображения звезд
+            updateStarsDisplay();
+            
+            // Инициализация ежедневных наград
+            initDailyRewards();
+            
+            // Инициализация кейсов в магазине
+            initShopCases();
+            
+            // Инициализация улучшений
+            initUpgrade();
+            
+            // Обработчик клика по звезде
+            document.getElementById('click-star').addEventListener('click', function() {
+                // Анимация нажатия
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+                
+                // Добавление звезд
+                userData.stars += 1;
+                userData.totalEarned += 1;
+                userData.clickCount += 1;
+                
+                // Обновление отображения
+                updateStarsDisplay();
+                
+                // Добавление в историю
+                addToHistory("Клик звезды", 1, "positive");
+                
+                // Проверка на бонус за 100 кликов
+                if (userData.clickCount % 100 === 0) {
+                    // Добавление бонусного кейса
+                    userData.cases.push({ 
+                        id: 0, 
+                        name: "Бонусный кейс", 
+                        type: "bonus", 
+                        price: 0,
+                        color: "var(--primary-color)",
+                        icon: "fas fa-gift",
+                        rewards: [
+                            { stars: 50, chance: 40 },
+                            { stars: 100, chance: 30 },
+                            { stars: 200, chance: 20 },
+                            { stars: 500, chance: 10 }
+                        ]
+                    });
+                    updateUserCases();
+                    alert("Поздравляем! Вы получили бонусный кейс за 100 кликов!");
+                }
+                
+                // Обновление счетчика кликов
+                document.getElementById('click-count').textContent = userData.clickCount;
+                document.getElementById('total-clicks').textContent = userData.clickCount;
+                
+                // Сохраняем данные
+                saveUserData();
+            });
+            
+            // Обработчик закрытия модального окна
+            document.getElementById('close-modal').addEventListener('click', function() {
+                document.getElementById('case-modal').style.display = 'none';
+            });
+            
+            // Обработчик закрытия анимации открытия кейса
+            document.getElementById('close-case-animation').addEventListener('click', function() {
+                document.getElementById('case-opening').style.display = 'none';
+            });
+            
+            // Инициализация истории
+            updateHistoryDisplay();
+            
+            // Сохраняем данные каждые 10 секунд
+            setInterval(saveUserData, 10000);
+        });
+        
+        // Функция обновления отображения звезд
+        function updateStarsDisplay() {
+            document.getElementById('stars-count').textContent = userData.stars;
+            document.getElementById('total-earned').textContent = userData.totalEarned;
+            document.getElementById('total-spent').textContent = userData.totalSpent;
+            document.getElementById('balance').textContent = userData.stars;
+            document.getElementById('total-clicks').textContent = userData.clickCount;
+        }
+        
+        // Функция добавления записи в историю
+        function addToHistory(description, amount, type) {
+            userData.history.unshift({ description, amount, type });
+            updateHistoryDisplay();
+        }
+        
+        // Функция обновления отображения истории
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            userData.history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <span>${item.description}</span>
+                    <span class="${item.type}">${item.type === 'positive' ? '+' : '-'}${item.amount} ⭐</span>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+        
+        // Функция инициализации ежедневных наград
+        function initDailyRewards() {
+            const rewardsGrid = document.getElementById('daily-rewards');
+            const rewards = [50, 100, 150, 200, 250, 300, 500];
+            
+            rewardsGrid.innerHTML = '';
+            
+            const now = Date.now();
+            const lastClaim = userData.dailyRewards.lastClaim;
+            const canClaim = !lastClaim || (now - lastClaim) >= 24 * 60 * 60 * 1000;
+            const currentDay = canClaim ? userData.dailyRewards.streak : userData.dailyRewards.streak - 1;
+            
+            rewards.forEach((reward, index) => {
+                const rewardDay = document.createElement('div');
+                rewardDay.className = 'reward-day';
+                
+                if (index === currentDay) {
+                    rewardDay.classList.add('today');
+                }
+                
+                if (index < userData.dailyRewards.streak) {
+                    rewardDay.classList.add('claimed');
+                }
+                
+                const isClaimable = index === userData.dailyRewards.streak && canClaim;
+                
+                rewardDay.innerHTML = `
+                    <div>День ${index + 1}</div>
+                    <div style="font-weight: bold; margin: 10px 0; font-size: 1.3rem;">${reward} ⭐</div>
+                    <button class="action-btn" ${isClaimable ? '' : 'disabled'}>
+                        ${index < userData.dailyRewards.streak ? 'Получено' : (isClaimable ? 'Получить' : 'Скоро')}
+                    </button>
+                `;
+                
+                // Обработчик получения награды
+                if (isClaimable) {
+                    const claimBtn = rewardDay.querySelector('button');
+                    claimBtn.addEventListener('click', function() {
+                        userData.stars += reward;
+                        userData.totalEarned += reward;
+                        userData.dailyRewards.streak += 1;
+                        userData.dailyRewards.lastClaim = now;
+                        
+                        updateStarsDisplay();
+                        addToHistory("Ежедневная награда", reward, "positive");
+                        rewardDay.classList.add('claimed');
+                        claimBtn.textContent = 'Получено';
+                        claimBtn.disabled = true;
+                        
+                        // Сохраняем данные
+                        saveUserData();
+                        
+                        // Перерисовываем награды
+                        initDailyRewards();
+                    });
+                }
+                
+                rewardsGrid.appendChild(rewardDay);
+            });
+        }
+        
+        // Функция инициализации кейсов в магазине
+        function initShopCases() {
+            const shopCasesGrid = document.getElementById('shop-cases');
+            
+            shopCasesGrid.innerHTML = '';
+            
+            casesData.forEach(caseItem => {
+                const caseElement = document.createElement('div');
+                caseElement.className = 'case-item';
+                caseElement.style.borderTopColor = caseItem.color;
+                
+                // Форматируем информацию о шансах для отображения
+                const minChance = Math.min(...caseItem.rewards.map(r => r.chance));
+                const maxChance = Math.max(...caseItem.rewards.map(r => r.chance));
+                const minReward = Math.min(...caseItem.rewards.map(r => r.stars));
+                const maxReward = Math.max(...caseItem.rewards.map(r => r.stars));
+                
+                caseElement.innerHTML = `
+                    <div class="case-icon" style="color: ${caseItem.color}">
+                        <i class="${caseItem.icon}"></i>
+                    </div>
+                    <div class="case-name">${caseItem.name}</div>
+                    <div class="case-price">${caseItem.price} ⭐</div>
+                    <div class="case-chance">Награды: ${minReward}-${maxReward} звёзд</div>
+                    <button class="action-btn">Купить</button>
+                `;
+                
+                // Обработчик покупки кейса
+                const buyBtn = caseElement.querySelector('button');
+                buyBtn.addEventListener('click', function() {
+                    if (userData.stars >= caseItem.price) {
+                        userData.stars -= caseItem.price;
+                        userData.totalSpent += caseItem.price;
+                        userData.cases.push({ ...caseItem });
+                        updateStarsDisplay();
+                        addToHistory(`Покупка кейса: ${caseItem.name}`, caseItem.price, "negative");
+                        alert(`Вы успешно купили ${caseItem.name}!`);
+                        updateUserCases();
+                        
+                        // Сохраняем данные
+                        saveUserData();
+                    } else {
+                        alert("Недостаточно звезд для покупки этого кейса!");
+                    }
+                });
+                
+                shopCasesGrid.appendChild(caseElement);
+            });
+        }
+        
+        // Функция обновления отображения кейсов пользователя
+        function updateUserCases() {
+            const userCasesGrid = document.getElementById('user-cases');
+            
+            userCasesGrid.innerHTML = '';
+            
+            if (userData.cases.length === 0) {
+                userCasesGrid.innerHTML = `
+                    <div class="empty-cases">
+                        <i class="fas fa-box-open" style="font-size: 4rem; margin-bottom: 20px; color: var(--light-text);"></i>
+                        <div>У вас пока нет кейсов</div>
+                        <div style="margin-top: 10px;">Приобретите их в магазине или получите за клики!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            userData.cases.forEach((caseItem, index) => {
+                const caseElement = document.createElement('div');
+                caseElement.className = 'case-item';
+                caseElement.style.borderTopColor = caseItem.color;
+                
+                caseElement.innerHTML = `
+                    <div class="case-icon" style="color: ${caseItem.color}">
+                        <i class="${caseItem.icon}"></i>
+                    </div>
+                    <div class="case-name">${caseItem.name}</div>
+                    <div class="case-chance">Нажмите чтобы открыть</div>
+                    <button class="action-btn">Открыть</button>
+                `;
+                
+                // Обработчик открытия кейса
+                const openBtn = caseElement.querySelector('button');
+                openBtn.addEventListener('click', function() {
+                    openCase(caseItem, index);
+                });
+                
+                userCasesGrid.appendChild(caseElement);
+            });
+        }
+        
+        // Функция открытия кейса с анимацией
+        function openCase(caseItem, index) {
+            // Симуляция выбора награды на основе шансов
+            let totalChance = caseItem.rewards.reduce((sum, reward) => sum + reward.chance, 0);
+            let random = Math.random() * totalChance;
+            let reward = caseItem.rewards[0].stars; // Значение по умолчанию
+            
+            for (const rewardItem of caseItem.rewards) {
+                if (random <= rewardItem.chance) {
+                    reward = rewardItem.stars;
+                    break;
+                }
+                random -= rewardItem.chance;
+            }
+            
+            // Показываем анимацию открытия
+            const caseOpening = document.getElementById('case-opening');
+            const starsContainer = document.getElementById('stars-container');
+            const finalReward = document.getElementById('final-reward');
+            
+            // Очищаем контейнер
+            starsContainer.innerHTML = '';
+            
+            // Создаем летающие звезды с возможными наградами
+            caseItem.rewards.forEach(rewardItem => {
+                for (let i = 0; i < 3; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star-reward';
+                    star.textContent = rewardItem.stars + ' ⭐';
+                    star.style.left = Math.random() * 80 + 10 + '%';
+                    star.style.animationDelay = (Math.random() * 2) + 's';
+                    starsContainer.appendChild(star);
+                }
+            });
+            
+            // Показываем анимацию
+            caseOpening.style.display = 'flex';
+            finalReward.textContent = reward + ' ⭐';
+            
+            // Через 3 секунды обновляем данные пользователя
+            setTimeout(() => {
+                // Обновление данных пользователя
+                userData.stars += reward;
+                userData.totalEarned += reward;
+                updateStarsDisplay();
+                addToHistory(`Открытие кейса: ${caseItem.name}`, reward, "positive");
+                
+                // Удаление кейса из инвентаря
+                userData.cases.splice(index, 1);
+                
+                // Обновление отображения кейсов
+                updateUserCases();
+                
+                // Сохраняем данные
+                saveUserData();
+            }, 3000);
+        }
+        
+        // Функция инициализации улучшений
+        function initUpgrade() {
+            const currentStarsInput = document.getElementById('current-stars');
+            const targetStarsInput = document.getElementById('target-stars');
+            const chancePercent = document.getElementById('chance-percent');
+            const spinBtn = document.getElementById('spin-btn');
+            const wheel = document.getElementById('wheel');
+            
+            // Функция расчета шанса
+            function calculateChance() {
+                const current = parseInt(currentStarsInput.value) || 10;
+                const target = parseInt(targetStarsInput.value) || 20;
+                
+                if (target <= current) {
+                    chancePercent.textContent = "100%";
+                    wheel.style.background = "conic-gradient(var(--success-color) 0% 100%)";
+                    return 100;
+                }
+                
+                const difference = target - current;
+                const chance = Math.max(10, 100 - difference);
+                
+                chancePercent.textContent = `${chance}%`;
+                wheel.style.background = `conic-gradient(var(--success-color) 0% ${chance}%, var(--danger-color) ${chance}% 100%)`;
+                
+                return chance;
+            }
+            
+            // Обработчики изменения значений
+            currentStarsInput.addEventListener('input', calculateChance);
+            targetStarsInput.addEventListener('input', calculateChance);
+            
+            // Инициализация начального шанса
+            calculateChance();
+            
+            // Обработчик кнопки "Крутить"
+            spinBtn.addEventListener('click', function() {
+                const current = parseInt(currentStarsInput.value) || 10;
+                const target = parseInt(targetStarsInput.value) || 20;
+                const chance = calculateChance();
+                
+                if (userData.stars < current) {
+                    alert("У вас недостаточно звезд для этой ставки!");
+                    return;
+                }
+                
+                // Анимация вращения
+                const spins = 3 + Math.random() * 2; // 3-5 полных оборотов
+                const winningAngle = (chance / 100) * 360;
+                const resultAngle = Math.random() * 360;
+                
+                const totalRotation = spins * 360 + resultAngle;
+                wheel.style.transform = `rotate(${totalRotation}deg)`;
+                
+                // Определение результата после анимации
+                setTimeout(() => {
+                    const normalizedAngle = resultAngle % 360;
+                    const isWin = normalizedAngle <= winningAngle;
+                    
+                    if (isWin) {
+                        userData.stars += (target - current);
+                        userData.totalEarned += (target - current);
+                        alert(`Поздравляем! Вы выиграли ${target - current} звезд!`);
+                        addToHistory("Улучшение: выигрыш", target - current, "positive");
+                    } else {
+                        userData.stars -= current;
+                        userData.totalSpent += current;
+                        alert(`К сожалению, вы проиграли ${current} звезд. Попробуйте еще раз!`);
+                        addToHistory("Улучшение: проигрыш", current, "negative");
+                    }
+                    
+                    updateStarsDisplay();
+                    
+                    // Сохраняем данные
+                    saveUserData();
+                    
+                    // Сброс вращения
+                    setTimeout(() => {
+                        wheel.style.transition = 'none';
+                        wheel.style.transform = 'rotate(0deg)';
+                        setTimeout(() => {
+                            wheel.style.transition = 'transform 3s cubic-bezier(0.2, 0.8, 0.3, 1)';
+                        }, 50);
+                    }, 1000);
+                    
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
